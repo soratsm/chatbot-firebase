@@ -15,6 +15,7 @@ jobs:
       REACT_APP_FIREBASE_STORAGE_BUCKET: ${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}
       REACT_APP_FIREBASE_SENDER_ID: ${{ secrets.REACT_APP_FIREBASE_SENDER_ID }}
       REACT_APP_FIREBASE_APP_ID: ${{ secrets.REACT_APP_FIREBASE_APP_ID }}
+      REACT_APP_SLACK_WEBHOOK_URL: ${{ secrets.REACT_APP_SLACK_WEBHOOK_URL }}
       CI: false
     steps:
       - uses: actions/checkout@v2

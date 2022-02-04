@@ -80,7 +80,6 @@ const FormDialog: VFC<Props> = (props) => {
           '【問い合わせ内容】\n' +
           description,
       }
-      console.log(process.env.REACT_APP_SLACK_WEBHOOK_URL)
       // Incoming Webhook URL は検索して、対象のワークスペースに追加すると取得可能
       // fetchメソッドでフォームの内容をSlackのIncoming Webhook URL に送信する
       fetch(process.env.REACT_APP_SLACK_WEBHOOK_URL as string, {
