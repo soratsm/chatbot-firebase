@@ -60,7 +60,8 @@ const FormDialog: VFC<Props> = (props) => {
   const submitForm = () => {
     const isBlank = validateRequiredInput(name, email, description)
     const isValidEmail = validateEmailFormat(email)
-
+    console.log(process.env.REACT_APP_SLACK_WEBHOOK_URL)
+    
     if (isBlank) {
       alert('必須入力欄が空白です。')
       return false
