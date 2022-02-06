@@ -1,20 +1,51 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Box, styled } from '@mui/material'
 
-import defaultDataset from 'dataset'
 import { AnswersList, Chats } from 'components'
 import { FormDialog } from 'components/forms'
-import { TypeAnswer, TypeChats, TypeId } from 'types'
+import { TypeAnswer, TypeChats } from 'types'
+import { useSetDataset } from './api/useSetDataset'
 
 const App = () => {
   const [answers, setAnswers] = useState<TypeAnswer[]>([])
   const [answer, setAnswer] = useState('')
   const [chats, setChats] = useState<TypeChats[]>([])
   const [currentId, setCurrentId] = useState('init')
-  const [dataset, setDataset] = useState(defaultDataset)
   const [open, setOpen] = useState(false)
+  const { getCollections, dataset } = useSetDataset()
 
-  const onClickAnswer = (answer: TypeAnswer) => {
+  // firestoreからデータセット取得
+  useEffect(() => {
+    getCollections()
+  }, [])
+
+  // 回答をクリックした際にnextIdの値により処理を振り分け
+  useEffect(() => {
+    // ユーザーチャット
+    const answerChats =
+      answer === '' || currentId === 'init'
+        ? [...chats]
+        : [...chats, { text: answer, isQuestion: false }]
+    setChats(answerChats)
+
+    // ボットチャット
+    setTimeout(() => {
+      // currentIdに一致したidのindexを取得する
+      const passIndex = dataset.findIndex(function (element) {
+        return element.id === currentId
+      })
+      // ボットチャットの投稿と次の回答を表示
+      const questionChats = [
+        ...answerChats,
+        { text: dataset[passIndex].question, isQuestion: true },
+      ]
+      setChats(questionChats)
+      setAnswers(dataset[passIndex].answers as TypeAnswer[])
+    }, 500)
+  }, [currentId, dataset])
+
+  // 回答をクリックした際にnextIdの値により処理を振り分け
+  const onClickAnswer = useCallback((answer: TypeAnswer) => {
     if (answer.nextId === 'contact') {
       setOpen(true)
     } else if (/^https:*/.test(answer.nextId)) {
@@ -27,37 +58,13 @@ const App = () => {
       setAnswer(answer.content)
       setCurrentId(answer.nextId)
     }
-  }
-  useEffect(() => {
-    console.log(currentId)
-
-    // ユーザーチャット
-    const answerChats =
-      answer === '' || currentId === 'init'
-        ? [...chats]
-        : [...chats, { text: answer, isQuestion: false }]
-    setChats(answerChats)
-
-    // ボットチャット
-    setTimeout(() => {
-      // nextIdに応じた返答をする
-      const questionChats = [
-        ...answerChats,
-        { text: dataset[currentId as TypeId].question, isQuestion: true },
-      ]
-      setChats(questionChats)
-      setAnswers(dataset[currentId as TypeId].answers as TypeAnswer[])
-    }, 500)
-  }, [currentId, dataset])
+  }, [])
 
   return (
     <SSection>
       <SBox>
         <Chats chats={chats} />
-        <AnswersList
-          answers={answers}
-          onClickAnswer={onClickAnswer}
-        />
+        <AnswersList answers={answers} onClickAnswer={onClickAnswer} />
         <FormDialog open={open} setOpen={setOpen} />
       </SBox>
     </SSection>

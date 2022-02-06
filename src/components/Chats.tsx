@@ -16,6 +16,7 @@ const Chats: VFC<Props> = (props) => {
   useLayoutEffect(() => {
     scrollBottomRef.current?.scrollIntoView()
   }, [chats])
+  
   return (
     <SList>
       {chats.map((chat, index) => (

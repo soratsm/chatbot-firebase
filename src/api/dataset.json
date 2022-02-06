@@ -1,0 +1,76 @@
+{
+  "init": {
+    "answers": [
+      { "content": "仕事を依頼したい", "nextId": "job_offer" },
+      {
+        "content": "ポートフォリオについて知りたい",
+        "nextId": "portfolio"
+      }
+    ],
+    "question": "こんにちは(^^) soratsmへのご用件はなんでしょうか？"
+  },
+  "job_offer": {
+    "answers": [
+      { "content": "Webアプリを開発してほしい", "nextId": "webapp" },
+      { "content": "自動化ツールを作ってほしい", "nextId": "automation_tool" },
+      { "content": "その他", "nextId": "other_jobs" }
+    ],
+    "question": "どのようなお仕事でしょうか？"
+  },
+  "webapp": {
+    "answers": [
+      { "content": "問い合わせる", "nextId": "contact" },
+      { "content": "最初の質問に戻る", "nextId": "init" }
+    ],
+    "question": "Webアプリ開発についてですね。コチラからお問い合わせできます。"
+  },
+  "automation_tool": {
+    "answers": [
+      { "content": "問い合わせる", "nextId": "contact" },
+      { "content": "最初の質問に戻る", "nextId": "init" }
+    ],
+    "question": "自動化ツール開発についてですね。コチラからお問い合わせできます。"
+  },
+  "other_jobs": {
+    "answers": [
+      { "content": "問い合わせる", "nextId": "contact" },
+      { "content": "最初の質問に戻る", "nextId": "init" }
+    ],
+    "question": "その他についてですね。コチラからお問い合わせできます。"
+  },
+  "portfolio": {
+    "answers": [
+      {
+        "content": "チャットボットについて知る",
+        "nextId": "chatbot"
+      },
+      { "content": "xxxについて知りたい", "nextId": "other_portfolio" },
+      { "content": "最初の質問に戻る", "nextId": "init" }
+    ],
+    "question": "react MUI ChakraUI"
+  },
+  "other_portfolio": {
+    "answers": [
+      {
+        "content": "その他のポートフォリオについて知りたい",
+        "nextId": "portfolio"
+      },
+      { "content": "最初の質問に戻る", "nextId": "init" }
+    ],
+    "question": "xxx"
+  },
+  "chatbot": {
+    "answers": [
+      {
+        "content": "参考",
+        "nextId": "https://www.youtube.com/playlist?list=PLX8Rsrpnn3IVOk48awq_nKW0aFP0MGpnn"
+      },
+      {
+        "content": "その他のポートフォリオについて知りたい",
+        "nextId": "portfolio"
+      },
+      { "content": "最初の質問に戻る", "nextId": "init" }
+    ],
+    "question": "xxx"
+  }
+}

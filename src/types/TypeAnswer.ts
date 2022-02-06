@@ -1,6 +1,5 @@
-import { TypeId } from '.';
 type TypeAnswer = {
   content: string
-  nextId: TypeId | string
+  nextId: string
 }
 export default TypeAnswer

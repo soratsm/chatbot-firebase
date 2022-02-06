@@ -2,7 +2,6 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogContentText,
   DialogActions,
   Button,
 } from '@mui/material'
@@ -11,6 +10,7 @@ import {
   Dispatch,
   memo,
   SetStateAction,
+  useCallback,
   useState,
   VFC,
 } from 'react'
@@ -31,15 +31,26 @@ const FormDialog: VFC<Props> = (props) => {
     setOpen(false)
   }
 
-  const onChangeName = (e: ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value)
-  }
-  const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value)
-  }
-  const onChangeDescription = (e: ChangeEvent<HTMLInputElement>) => {
-    setDescription(e.target.value)
-  }
+  const onChangeName = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      setName(e.target.value)
+    },
+    [setName]
+  )
+
+  const onChangeEmail = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      setEmail(e.target.value)
+    },
+    [setEmail]
+  )
+
+  const onChangeDescription = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      setDescription(e.target.value)
+    },
+    [setDescription]
+  )
 
   const validateEmailFormat = (email: string) => {
     const regex =
@@ -60,8 +71,6 @@ const FormDialog: VFC<Props> = (props) => {
   const submitForm = () => {
     const isBlank = validateRequiredInput(name, email, description)
     const isValidEmail = validateEmailFormat(email)
-    console.log(process.env.REACT_APP_SLACK_WEBHOOK_URL)
-    console.log(process.env.REACT_APP_FIREBASE_DOMAIN)
 
     if (isBlank) {
       alert('必須入力欄が空白です。')
@@ -82,7 +91,6 @@ const FormDialog: VFC<Props> = (props) => {
           '【問い合わせ内容】\n' +
           description,
       }
-      // Incoming Webhook URL は検索して、対象のワークスペースに追加すると取得可能
       // fetchメソッドでフォームの内容をSlackのIncoming Webhook URL に送信する
       fetch(process.env.REACT_APP_SLACK_WEBHOOK_URL as string, {
         method: 'POST',
